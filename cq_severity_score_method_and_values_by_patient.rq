@@ -5,7 +5,7 @@ PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 PREFIX owl:     <http://www.w3.org/2002/07/owl#>
-PREFIX dc:     <http://purl.org/dc/terms/>
+PREFIX dct:     <http://purl.org/dc/terms/>
 PREFIX obo:     <http://purl.obolibrary.org/obo/>
 PREFIX sio:     <http://semanticscience.org/resource/>
 PREFIX prov:    <http://http://http://www.w3.org/ns/prov#>
@@ -28,14 +28,14 @@ SELECT ?severity_score_answer_value
 
     ?severity_score_evaluation_process a obo:NCIT_C25214 ;
                                        sio:SIO_000229 ?severity_score_answer ;
-                                       dc:conformsTo ?severity_score_measurement_method .
+                                       dct:conformsTo ?severity_score_measurement_method .
 
     ?severity_score_answer a obo:CMO_0001109 ;
                            sio:SIO_000300 ?severity_score_answer_value .
 
     ?severity_score_measurement_method a obo:NCIT_C81265 ;
                                        sio:SIO_000671 ?severity_score_measurement_method_id ;
-                                       dc:hasVersion ?severity_score_measurement_version ;
+                                       dct:hasVersion ?severity_score_measurement_version ;
                                        om:hasScale ?severity_score_result_scale .
 
 
