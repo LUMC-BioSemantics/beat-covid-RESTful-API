@@ -1,0 +1,60 @@
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:8090/blazegraph/namespace/kb/sparql
+#+ endpoint_in_url: False
+#+ description: Get the location (hosptial_value, ward_value) of a patient from a Covid-19 synthetic dataset found via a FDP by clinical ID.
+#+ defaults:
+#+   - type: http://purl.obolibrary.org/obo/NCIT_C25261
+#+   - describes: http://purl.obolibrary.org/obo/MONDO_0100096
+#+   - dataInputOf: http://purl.obolibrary.org/obo/NCIT_C15206
+#+   - hasQuality: http://semanticscience.org/resource/SIO_001410
+
+
+# LUMC prefixes
+prefix dcat:     <http://www.w3.org/ns/dcat#>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX obo:     <http://purl.obolibrary.org/obo/>
+PREFIX afo:     <http://purl.allotrope.org/ontologies/property#>
+PREFIX sio:     <http://semanticscience.org/resource/>
+PREFIX prov:    <http://http://http://www.w3.org/ns/prov#>
+PREFIX bco:     <http://purl.org/beat-covid/cytokines-semantic-model.owl#>
+
+# Get the location (ICUQId, hospitalId) of a patient by clinical ID
+
+SELECT DISTINCT ?ICUQId ?hospitalId WHERE {
+
+    ?beatcovid_dataset a dcat:Dataset ;
+                      dcat:type ?_type_iri ;
+                      afo:AFX_0002699 ?_describes_iri ;
+                      afo:AFX_0000553 ?_dataInputOf_iri ;
+                      obo:RO_0000086 ?_hasQuality_iri ;
+                      dcat:distribution ?beatcovid_dataset_dist .
+
+    ?beatcovid_dataset_dist a dcat:Distribution ;
+                            dcat:accessURL ?accessURL .
+
+    SERVICE ?accessURL {
+
+        ?person_patient_id a bco:clinical_id;
+                          sio:SIO_000300 ?_clinicalId;
+                          obo:IAO_0000219 ?person_patient_role.
+
+        ?person a sio:SIO_000498 ;
+                sio:SIO_000228 ?person_patient_role ;
+                sio:SIO_000228 ?person_study_role .
+
+        ?person_study_id a bco:beat_covid_id ;
+                       obo:IAO_0000219 ?person_study_role ;
+                       obo:RO_0001025 ?ICUQ .
+
+        ?ICUQ a obo:NCIT_C21541 ;
+              sio:SIO_000300 ?ICUQId ;
+              obo:BFO_0000050 ?hospital .
+
+        ?hospital a sio:SIO_000688 ;
+                  sio:SIO_000300 ?hospitalId .
+
+        }
+}
