@@ -1,8 +1,8 @@
-#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:8090/blazegraph/namespace/kb/sparql
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/beat-covid
 #+ endpoint_in_url: False
 #+ description: Get all patients and their clinical ID from a Covid-19 synthetic dataset found via a FDP.
 #+ defaults:
-#+   - type: http://purl.obolibrary.org/obo/NCIT_C25261
+#+   - type: http://purl.obolibrary.org/obo/NCIT_C47846
 #+   - describes: http://purl.obolibrary.org/obo/MONDO_0100096
 #+   - dataInputOf: http://purl.obolibrary.org/obo/NCIT_C15206
 #+   - hasQuality: http://semanticscience.org/resource/SIO_001410

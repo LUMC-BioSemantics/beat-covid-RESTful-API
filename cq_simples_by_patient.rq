@@ -1,4 +1,12 @@
-# QC1 – What are all the samples (and its annotations) that were collected from a patient?
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/beat-covid
+#+ endpoint_in_url: False
+#+ description: To answer QC1 - What are all the samples (and its annotations) that were collected from a patient?
+#+ defaults:
+#+   - type: http://purl.obolibrary.org/obo/NCIT_C47846
+#+   - describes: http://purl.obolibrary.org/obo/MONDO_0100096
+#+   - dataInputOf: http://purl.obolibrary.org/obo/NCIT_C15206
+#+   - hasQuality: http://semanticscience.org/resource/SIO_001410
+#+   - patientIdString: "1100207"
 
 # LUMC prefixes
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -6,39 +14,49 @@ PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
 PREFIX owl:     <http://www.w3.org/2002/07/owl#>
 PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX dcat:     <http://www.w3.org/ns/dcat#>
 PREFIX obo:     <http://purl.obolibrary.org/obo/>
+PREFIX afo:     <http://purl.allotrope.org/ontologies/property#>
 PREFIX sio:     <http://semanticscience.org/resource/>
 PREFIX prov:    <http://http://http://www.w3.org/ns/prov#>
-PREFIX bc:      <https://rdf.biosemantics.org/resources/beat-covid/>
 PREFIX bco:     <http://purl.org/beat-covid/cytokines-semantic-model.owl#>
 
 SELECT ?sample_id
        ?organ
        ?sampling_process_date_value WHERE {
 
-    ?patient_id a bco:clinical_id ;
-                sio:SIO_000300 person_patient_idstring ;
-                obo:IAO_0000219 ?person_donor_role .
+      ?beatcovid_dataset a dcat:Dataset ;
+                        dcat:type ?_type_iri ;
+                        afo:AFX_0002699 ?_describes_iri ;
+                        afo:AFX_0000553 ?_dataInputOf_iri ;
+                        obo:RO_0000086 ?_hasQuality_iri ;
+                        dcat:distribution ?beatcovid_dataset_dist .
 
-    ?person a sio:SIO_000498;
-            sio:SIO_000228 ?person_donor_role .
+      ?beatcovid_dataset_dist a dcat:Distribution ;
+                              dcat:accessURL ?accessURL .
 
-    ?organ a sio:SIO_010003 ;
-           obo:BFO_0000050 ?person .
+      SERVICE ?accessURL {
 
-    ?sampling_process a sio:SIO_001049 ;
-                      sio:SIO_000230 ?person ;
-                      sio:SIO_000229 ?sample ;
-                      sio:SIO_000291 ?organ ;
-                      sio:SIO_000217 ?sampling_process_date .
+          ?patient_id a bco:clinical_id ;
+                      sio:SIO_000300 ?_patientIdString ;
+                      obo:IAO_0000219 ?person_donor_role .
 
-    # needed ?
-    ?sample a sio:SIO_001050 ;
-            sio:SIO_000628 ?organ .
+          ?person a sio:SIO_000498;
+                  sio:SIO_000228 ?person_donor_role .
 
-    ?sample_id a bco:record_id ;
-               sio:SIO_000672 ?sample .
+          ?organ a sio:SIO_010003 ;
+                 obo:BFO_0000050 ?person .
 
-    ?sampling_process_date a obo:NCIT_C25164 ;
-                           dct:date  ?sampling_process_date_value .
+          ?sampling_process a sio:SIO_001049 ;
+                            sio:SIO_000230 ?person ;
+                            sio:SIO_000229 ?sample ;
+                            sio:SIO_000291 ?organ ;
+                            sio:SIO_000217 ?sampling_process_date .
+
+          ?sample_id a bco:record_id ;
+                     sio:SIO_000672 ?sample .
+
+          ?sampling_process_date a obo:NCIT_C25164 ;
+                                 dct:date  ?sampling_process_date_value .
+      }
 }
