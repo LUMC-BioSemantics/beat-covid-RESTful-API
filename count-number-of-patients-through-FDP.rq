@@ -1,4 +1,4 @@
-#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/beat-covid
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
 #+ endpoint_in_url: False
 #+ description: Get count number of patients in a Covid-19 synthetic dataset found via a FDP.
 #+ defaults:

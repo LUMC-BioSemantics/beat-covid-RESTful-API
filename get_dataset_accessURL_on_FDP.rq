@@ -1,4 +1,4 @@
-#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/beat-covid
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
 #+ endpoint_in_url: False
 #+ description: Get access URLs of all distributions of a dataset that meet the property constraints.
 #+ defaults:
