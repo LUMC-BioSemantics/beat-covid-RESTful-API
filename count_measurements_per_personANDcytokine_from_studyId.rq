@@ -1,4 +1,4 @@
-ward#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
 #+ endpoint_in_url: False
 #+ description: count measurements per person and cytokine id from a study id
 #+ defaults:
