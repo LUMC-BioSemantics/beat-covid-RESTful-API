@@ -1,0 +1,46 @@
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
+#+ endpoint_in_url: False
+#+ description: list the study roles and study id of all person
+#+ defaults:
+#+   - type: http://purl.obolibrary.org/obo/NCIT_C47846
+#+   - describes: http://purl.obolibrary.org/obo/MONDO_0100096
+#+   - dataInputOf: http://purl.obolibrary.org/obo/NCIT_C15206
+#+   - hasQuality: http://semanticscience.org/resource/SIO_001410
+
+# LUMC prefixes
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX dcat:     <http://www.w3.org/ns/dcat#>
+PREFIX obo:     <http://purl.obolibrary.org/obo/>
+PREFIX afo:     <http://purl.allotrope.org/ontologies/property#>
+PREFIX sio:     <http://semanticscience.org/resource/>
+PREFIX prov:    <http://http://http://www.w3.org/ns/prov#>
+PREFIX bco:     <http://purl.org/beat-covid/cytokines-semantic-model.owl#>
+
+
+SELECT ?person_iri ?personStudyRole_iri ?studyIdString WHERE {
+
+        ?beatcovid_dataset a dcat:Dataset ;
+                          dcat:type ?_type_iri ;
+                          afo:AFX_0002699 ?_describes_iri ;
+                          afo:AFX_0000553 ?_dataInputOf_iri ;
+                          obo:RO_0000086 ?_hasQuality_iri ;
+                          dcat:distribution ?beatcovid_dataset_dist .
+
+        ?beatcovid_dataset_dist a dcat:Distribution ;
+                                dcat:accessURL ?accessURL .
+
+        SERVICE ?accessURL {
+
+              ?person_iri a sio:SIO_000498 ;
+                      sio:SIO_000228 ?studyRole_iri .
+
+              ?person_study_id a bco:beat_covid_id ;
+                            sio:SIO_000300  ?studyIdString;
+                            obo:IAO_0000219 ?studyRole_iri .
+
+        }
+}
