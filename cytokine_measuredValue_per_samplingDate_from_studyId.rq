@@ -22,7 +22,7 @@ PREFIX prov:    <http://http://http://www.w3.org/ns/prov#>
 PREFIX bco:     <http://purl.org/beat-covid/cytokines-semantic-model.owl#>
 
 
-SELECT ?cytokineIdString ?measured_value ?sampling_process_date WHERE {
+SELECT ?cytokineIdString ?measured_value ?sampling_process_date_value WHERE {
 
         ?beatcovid_dataset a dcat:Dataset ;
                           dcat:type ?_type_iri ;
