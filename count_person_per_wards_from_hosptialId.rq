@@ -1,4 +1,4 @@
-ward#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
+#+ endpoint: http://lumc-beat-covid.fair-dtls.surf-hosted.nl:7200/repositories/fdp
 #+ endpoint_in_url: False
 #+ description: count person per ward from a hosptial id
 #+ defaults:
